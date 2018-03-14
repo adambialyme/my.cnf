@@ -1,0 +1,85 @@
+[mysql]
+
+# CLIENT #
+port                           = 3306
+socket                         = /var/lib/mysql/mysql.sock
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default-storage-engine         = InnoDB
+socket                         = /var/lib/mysql/mysql.sock
+pid-file                       = /var/lib/mysql/mysql.pid
+
+# MyISAM #
+#key-buffer-size                = 32M
+#myisam-recover                 = FORCE,BACKUP
+
+# SAFETY #
+max-allowed-packet             = 16M
+max-connect-errors             = 1000000
+innodb                         = FORCE
+
+# DATA STORAGE #
+datadir                        = /var/lib/mysql/
+
+# BINARY LOGGING #
+log-bin                        = /var/lib/mysql/mysql-bin
+expire-logs-days               = 14
+sync-binlog                    = 1
+binlog-format                  = MIXED
+
+# CACHES AND LIMITS #
+tmp-table-size                 = 32M
+max-heap-table-size            = 32M
+query-cache-type               = 0
+query-cache-size               = 0
+max-connections                = 500
+thread-cache-size              = 50
+open-files-limit               = 65535
+table-definition-cache         = 4096
+table-open-cache               = 4096
+
+
+# +----------+
+# |  INNODB  |
+# +----------+
+
+# approx 70-80 pcent of available memory
+innodb-buffer-pool-size        = 2G
+
+# 4M usualy ok
+innodb_log_buffer_size         = 4M
+
+# innodb_flush_method: DIRECT_IO relieves I/O pressure.
+# Direct I/O is not cached, If it set to O_DIRECT avoids
+# double buffering with buffer pool and filesystem cache.
+# Given that you have hardware RAID controller and battery-backed write cache.
+innodb-flush-method            = O_DIRECT
+
+#
+innodb-log-files-in-group      = 2
+
+# This depends on your recovery speed needs but 256M seems to be a good balance
+# between reasonable recovery time and good performance 
+innodb-log-file-size           = 256M
+
+# When innodb_flush_log_at_trx_commit is set to 1 the log buffer is flushed
+# on every transaction commit to the log file on disk and provides maximum
+# data integrity but it also has performance impact. Setting it to 2 means
+# log buffer is flushed to OS file cache on every transaction commit.
+# The implication of 2 is optimal and improve performance if you are not
+# concerning ACID and can lose transactions for last second or two in case of OS crashes. 
+innodb-flush-log-at-trx-commit = 1
+
+innodb-file-per-table          = 1
+
+
+# LOGGING #
+# uncomment if needed #
+#log-error                      = /var/log/mysqld.log
+#log-queries-not-using-indexes  = 1
+#slow-query-log                 = 1
+#slow-query-log-file            = /var/lib/mysql/mysql-slow.log
+

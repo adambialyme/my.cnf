@@ -1,0 +1,1 @@
+Example essential my.cnf with some comments as too many mistakes been made previously ;-)
