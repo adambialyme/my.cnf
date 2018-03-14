@@ -12,9 +12,27 @@ default-storage-engine         = InnoDB
 socket                         = /var/lib/mysql/mysql.sock
 pid-file                       = /var/lib/mysql/mysql.pid
 
-# MyISAM #
+
+# +---------------+
+# |  REPLICATION  |
+# +---------------+
+
+#server-id		       = 530
+#skip-slave-start               = 1
+#log-slave-updates              = 1
+#relay-log                      = /var/lib/mysql/relay-bin
+#slave-net-timeout              = 60
+
+
+
+# +----------+
+# |  MyISAM  |
+# +----------+
+
 #key-buffer-size                = 32M
 #myisam-recover                 = FORCE,BACKUP
+
+
 
 # SAFETY #
 max-allowed-packet             = 16M
